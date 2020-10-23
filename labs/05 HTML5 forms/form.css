@@ -1,0 +1,27 @@
+body {
+    background-color: #adadad;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+form {
+    margin: 10px;
+}
+
+div{
+    margin: auto;
+}
+
+.fieldset {
+    max-width: 15em;
+    margin: 5px;
+}
+
+legend {
+    font-weight: bold;
+    font-size: large;
+}
+
+fieldset {
+    background-color: #B9C2CC;
+}
