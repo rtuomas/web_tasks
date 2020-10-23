@@ -1,0 +1,7 @@
+body {
+    column-count: 2;
+}
+
+.three {
+    column-count: 3;
+}

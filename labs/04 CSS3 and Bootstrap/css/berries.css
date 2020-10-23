@@ -1,0 +1,49 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+#container {
+    margin: auto;
+}
+
+h1{
+    font-size: 5em;
+}
+h2 {
+    text-align: center;
+}
+p {
+    text-align: center;
+}
+
+img {
+    border: 1px solid cadetblue;
+}
+
+figcaption {
+    font-weight: bold;
+}
+
+#blueberry {
+    background-color: lightblue;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    align-self: center;
+    max-width: 250px;
+}
+
+#cloudberry {
+    max-width: 250px;
+}
+#lingonberry {
+    background-color: lightcoral;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    align-self: center;
+    max-width: 250px;
+}
+
+div > p {
+    font-style: italic;
+}

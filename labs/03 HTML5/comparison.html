@@ -3,19 +3,18 @@
 <head>
     <title>Comparison of three computers</title>
     <meta charset="utf-8" />
+    <link href="styles.css" type="text/css" rel="stylesheet" />
 </head>
-<style>
-    table, th, td {
-        border: 1px solid black;
-    }
-</style>
+
 <body>
 <p>A comparison of technical data of three popular 80's home computers:</p>
 
 <table>
-    <caption>Technical comparison</caption>
     <thead>
     <tr>
+        <td colspan="5" id="otsikko">Technical comparison</td>
+    </tr>
+    <tr id="red">
         <th>Property</th>
         <th>Commodore 64</th>
         <th>ZX Spectrum</th>
@@ -25,32 +24,32 @@
     </thead>
     <tbody>
     <tr>
-        <td>CPU</td>
+        <td class="bold">CPU</td>
         <td>MOS Technology 6510</td>
         <td>Zilog Z80</td>
         <td>MOS Technology 6502</td>
         <td>Zilog Z80A</td>
     </tr>
     <tr>
-        <td>RAM</td>
+        <td class="bold">RAM</td>
         <td>64 kilobytes</td>
         <td>16 or 64 kilobytes</td>
         <td>5 kilobytes</td>
         <td>64kB </td>
     </tr>
     <tr>
-        <td>ROM</td>
+        <td class="bold">ROM</td>
         <td>20 kilobytes</td>
         <td>16 kilobytes</td>
         <td>16 kilobytes</td>
         <td>32kB </td>
     </tr>
     <tr>
-        <td>Main usage</td>
+        <td class="bold">Main usage</td>
         <td colspan="4">Home computing</td>
     </tr>
     <tr>
-        <td>Killer game</td>
+        <td class="bold">Killer game</td>
         <td colspan="2">Jet Set Willy</td>
         <td>Jelly Monsters</td>
         <td>Armoured Assault</td>

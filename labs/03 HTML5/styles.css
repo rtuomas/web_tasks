@@ -1,0 +1,22 @@
+#red {
+    background-color: red;
+    color: white;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+#otsikko {
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+}
