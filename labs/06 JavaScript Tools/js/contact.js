@@ -7,34 +7,58 @@ function process() {
     'use strict';
 
     // Variable to represent validity:
-    var okay = true;
-    
+    let nameB = true;
+    let emailB = true;
+    let commentB = true;
+
     // Get form references:
-    var email = document.getElementById('email');
-    var comments = document.getElementById('comments');
+    const name = document.getElementById('name');
+    const email = document.getElementById('email');
+    const comments = document.getElementById('comments');
+
+    //Validate name
+    const regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
+    if(!regName.test(name.value)
+    && !(name.value.length<2 || name.value.length>100)){
+        nameB=false;
+    }else{
+        console.log("Valid name")
+    }
+    /*
+    if(!name.value.length<3 || !name.value.length>100
+    || !(name.value.indexOf(' ')>=0)){
+        nameB=false;
+        alert("Enter valid name");
+    }
+
+     */
+
     // Validate the email address:
     if (!email || !email.value 
     || (email.value.length < 6) 
     || (email.value.indexOf('@') == -1)) {
-        okay = false;
+        console.log("unvalid email");
+        emailB = false;
         alert('Please enter a valid email address!');
+    } else {
+        console.log("valid email")
     }
 
     // Validate the comments:
     var maxLength = 100;
     if (!comments || !comments.value 
     || (comments.value.indexOf('<') != -1) ) {
-        okay = false;
+        commentB = false;
         alert('Please enter your comments, without any HTML!');
     } else if (comments.value.length > maxLength) {
-        okay = false;
+        commentB = false;
         var originalText = comments.value;
         // Find the last space before the limit:
         var lastSpace = originalText.lastIndexOf(' ', maxLength);
         // Trim the text to that spot:
         var limitedText = originalText.slice(0, lastSpace);
         comments.value = limitedText;
-        okay = true;
+        commentB = true;
 
         alert('Comment was trimmed under ' + maxLength + ' characters');
     }
@@ -44,7 +68,7 @@ function process() {
 
     // For this example we alert the user and log details to the console
     var message;
-    if (okay) {
+    if (nameB && emailB && commentB) {
         message = "Form submitted";
     } else {
         message = "Form not submitted";
