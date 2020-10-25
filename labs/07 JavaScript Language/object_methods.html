@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Car with fuel</title>
+    <link rel="stylesheet" href="css/form.css">
 <script>
 
 var fiat = { 
@@ -29,11 +30,16 @@ var fiat = {
 	},
 
 	drive: function() {
+
+      function updateFuel(){
+        fiat.fuel -= 1;
+      }
+
 		if (this.started) {
 			if (this.fuel > 0) {
 				console.log(this.make + " " +
 				      this.model + " goes zoom zoom!");
-				this.fuel = this.fuel - 1;
+				updateFuel();
 			} else {
 				console.log("Uh oh, out of fuel.");
 				this.stop();
