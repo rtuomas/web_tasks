@@ -10,6 +10,50 @@
     Make a request
   </span>
 
+  <form>
+      <label>Put URL here</label>
+      <input type="text" id="url" name="url">
+      <button type="button" id="button">Check the URL</button>
+  </form>
+
+  <script>
+
+      document.getElementById("button").onclick = function(){
+        const url = document.getElementById("url").value;
+        if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+          httpRequest = new XMLHttpRequest();
+        } else if (window.ActiveXObject) { // IE
+          try {
+            httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+          }
+          catch (e) {
+            try {
+              httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (e) {}
+          }
+        }
+        if (!httpRequest) {
+          alert('Giving up :( Cannot create an XMLHTTP instance');
+          return false;
+        }
+
+        // set a callback function for when the httpRequest completes
+        httpRequest.onreadystatechange = alertContents;
+
+        // now do the actual AJAX request
+        httpRequest.open('GET', url, true);
+        httpRequest.send();
+      };
+      
+      function alertContents() {
+        if (httpRequest.readyState === 4) {
+          if (httpRequest.status === 404) {
+            alert("Site is DOWN!");
+          }
+        }
+      }
+  </script>
 
   <script type="text/javascript">
   (function() {
