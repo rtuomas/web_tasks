@@ -7,11 +7,31 @@ console.log(data);
 
 var books = data.books;
 
-var list = document.createElement('ol');
+var list = document.createElement('table');
+let header = document.createElement('h1');
+
+list.innerHTML = `
+<tr>
+    <th>Title</th>
+    <th>Year</th>
+ </tr>
+`;
+
 for (var i=0; i < books.length; i++) {
-	console.log(books[i].title);
-	var item = document.createElement('li');
-	item.innerHTML = books[i].title;
-	list.appendChild(item);
+	let tr = document.createElement('tr');
+	let td1 = document.createElement('td');
+	let td2 = document.createElement('td');
+
+	td1.innerHTML = books[i].title;
+	td2.innerHTML = books[i].year;
+	tr.appendChild(td1);
+	tr.appendChild(td2);
+	list.appendChild(tr);
+
+	tr.onclick = () => {
+		header.innerHTML = td1.innerText;
+	}
+
 }
+document.body.appendChild(header);
 document.body.appendChild(list);
