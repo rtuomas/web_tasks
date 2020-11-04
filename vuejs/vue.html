@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <p>{{ message }}</p>
+        <input v-model="message">
+        <div>Count: {{count}}</div>
+    </div>
+    <div>------------------------------------------------</div>
+    <div id="app-3">
+        <span v-if="seen"><p>Now you see me</p></span>
+        <button v-on:click="Vaihda">Näytä/Piilota</button>
+    </div>
+    <div>------------------------------------------------</div>
+    <div id="math">
+        <p>{{ count }}</p>
+        <button v-on:click="Minus">-</button>
+        <button v-on:click="Zero">0</button>
+        <button v-on:click="Plus">+</button>
+    </div>
+    <div>-----------------------------------------------</div>
+    <div id="list">
+
+        <input v-model="message">
+        <button v-on:click="Add">Add</button>
+        <button v-on:click="deleteFirst">Delete first todo</button>
+        <ul>
+            <li v-for="(message,i) in list">
+                {{ message }}
+                <button v-on:click="deleteThis(i)">Delete todo</button>
+            </li>
+        </ul>
+    </div>
+
+<script src="vue.js"></script>
+</body>
+</html>
