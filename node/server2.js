@@ -2,6 +2,10 @@ var express = require('express');
 var app = express();
 var mysql = require('mysql');
 var url = require('url');
+const util = require('util');
+var path = require('path');
+//var query = require('query');
+
 
 var con = mysql.createConnection({
   host: "localhost",
@@ -10,15 +14,12 @@ var con = mysql.createConnection({
   database: "example_db"
 });
 
-//------
-//6.
 
-//_---------
+const query = util.promisify(con.query).bind(con);
 
 
-// This responds with "Hello World" on the homepage
-//HUOM */API/* => */*
-app.get('/api/', function (req, res) {
+
+app.get('/', function (req, res) {
 
   con.connect(function(err) {
     if (err) throw err;
@@ -29,9 +30,57 @@ app.get('/api/', function (req, res) {
     });
   });
 
-
-  //console.log("Got a GET request for the homepage");
+  console.log("Got a GET request for the homepage");
   //res.send('Hello GET');
+});
+
+
+
+//HUOM */API/* => */*
+// parametrien kirjoitustapa selaimessa : http://localhost:8080/api/events?start=2019-11-01&end=2020-11-29
+app.get("/api/events", function (req, res) {
+  console.log("Get events from a certain period");
+  var q = url.parse(req.url, true).query;
+  var params = q.start + " " + q.end;
+  var startDate = q.start;
+  var endDate = q.end;
+  var alteredResult;
+  var string;
+  // res.send("Getting events: "+params);
+
+
+  var sql = "SELECT event_date.Date, event.Name, event.Type, Location.Location_name"
+      + " FROM event_date, event, location"
+      + " WHERE event_date.Event_id = event.Event_id and event.Location_Location_id = Location.Location_id"
+      + " and event_date.Date >= ? and event_date.Date <= ?"
+      + " GROUP BY Name"
+      + " ORDER BY event_date.Date";
+
+
+
+
+  //console.log(startDate);
+  //console.log(endDate);
+  //startDate>endDate?console.log("ALKU SUUREMPI"):console.log("LOPPU SUUREMPI");
+
+  (async () => {
+    try {
+      const rows = await query(sql,[startDate, endDate]);
+      string = JSON.stringify(rows);
+      alteredResult = '{"numOfRows":'+rows.length+',"rows":'+string+'}';
+      console.log("ROWS:  ", rows);
+      res.send(alteredResult);
+
+    }
+    catch (err) {
+      console.log("Database error!"+ err);
+    }
+    finally {
+      //conn.end();
+    }
+  })()
+
+
 });
 
 // This responds a POST request for the homepage
@@ -58,7 +107,7 @@ app.get('/ab*cd', function(req, res) {
   res.send('Page Pattern Match');
 })
 
-var server = app.listen(8082, function () {
+var server = app.listen(8080, function () {
   var host = server.address().address
   var port = server.address().port
 
