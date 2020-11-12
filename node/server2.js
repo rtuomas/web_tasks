@@ -58,7 +58,6 @@ app.get("/api/events", function (req, res) {
 
 
 
-
   //console.log(startDate);
   //console.log(endDate);
   //startDate>endDate?console.log("ALKU SUUREMPI"):console.log("LOPPU SUUREMPI");
