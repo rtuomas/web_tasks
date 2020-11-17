@@ -4,8 +4,8 @@ var mysql = require('mysql');
 var url = require('url');
 const util = require('util');
 var path = require('path');
-//var query = require('query');
-
+var cors = require('cors');
+var bodyParser = require('body-parser');
 
 var con = mysql.createConnection({
   host: "localhost",
@@ -14,6 +14,11 @@ var con = mysql.createConnection({
   database: "example_db"
 });
 
+app.use(cors());
+
+var urlencodedParser = bodyParser.urlencoded({extended: false});
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 const query = util.promisify(con.query).bind(con);
 
@@ -25,7 +30,7 @@ app.get('/', function (req, res) {
     if (err) throw err;
     con.query("SELECT * FROM location", function (err, result, fields) {
       if (err) throw err;
-      console.log(result);
+      //console.log(result);
       res.send(result);
     });
   });
@@ -82,10 +87,62 @@ app.get("/api/events", function (req, res) {
 
 });
 
+app.get("/api/location", function (req, res) {
+  var q = url.parse(req.url, true).query;
+  var param = q.name;
+  var alteredResult;
+  var string;
+
+  var sql = "SELECT * FROM location WHERE location_name like ?";
+
+  (async () => {
+    try {
+      const rows = await query(sql,[param]);
+      console.log(rows)
+      string = JSON.stringify(rows);
+      alteredResult = '{"numOfRows":'+rows.length+',"rows":'+string+'}';
+      console.log("ROWS:  ", rows);
+      res.send(alteredResult);
+    }
+    catch (err) {
+      console.log("Database error!"+ err);
+    }
+    finally {
+      //conn.end();
+    }
+  })()
+});
+
 // This responds a POST request for the homepage
-app.post('/', function (req, res) {
-  console.log("Got a POST request for the homepage");
-  res.send('Hello POST');
+app.post("/api/event", urlencodedParser, function(req, res) {
+  console.log("POST");
+
+  console.log("body: %j", req.body);
+
+  var jsonObj = req.body;
+  console.log("Tapahtuman nimi: " + jsonObj.eventName);
+
+  if (jsonObj.eventLocation > 0) {
+    (async() => {
+      try {
+        console.log("insert into event....");
+        var sql = "INSERT INTO event (Name, Type, Location_Location_id) VALUES (?, ?, ?)";
+        const result = await query(sql, [jsonObj.eventName, jsonObj.eventType, jsonObj.eventLocation]);
+
+        console.log("insert into event_date....");
+        let insertedId = result.insertId;
+        sql = "INSERT INTO event_date (Date, Event_id) VALUES (?, ?)";
+        const resultEvent_id = await query(sql, [jsonObj.eventDate, insertedId]);
+
+        await query(sql,[jsonObj.eventDate, insertedId]);
+        res.send('POST succesful ' + req.body);
+        console.log("Post Successful..?");
+      } catch(err) {
+        console.log("Error: " + err);
+      }
+    })()
+  }
+
 });
 
 // This responds a DELETE request for the /del_user page.
